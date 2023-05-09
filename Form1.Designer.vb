@@ -28,15 +28,13 @@ Partial Class Form1
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
-        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.Button3 = New System.Windows.Forms.Button()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.settz = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(146, 93)
+        Me.Button1.Location = New System.Drawing.Point(146, 125)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 0
@@ -56,7 +54,7 @@ Partial Class Form1
         '
         Me.TextBox1.Location = New System.Drawing.Point(12, 216)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(352, 20)
+        Me.TextBox1.Size = New System.Drawing.Size(271, 20)
         Me.TextBox1.TabIndex = 2
         '
         'Timer1
@@ -67,17 +65,9 @@ Partial Class Form1
         '
         Me.RichTextBox1.Location = New System.Drawing.Point(12, 242)
         Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(352, 96)
+        Me.RichTextBox1.Size = New System.Drawing.Size(209, 96)
         Me.RichTextBox1.TabIndex = 3
         Me.RichTextBox1.Text = ""
-        '
-        'DataGridView1
-        '
-        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(590, 233)
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(240, 150)
-        Me.DataGridView1.TabIndex = 4
         '
         'ComboBox1
         '
@@ -90,30 +80,28 @@ Partial Class Form1
         Me.ComboBox1.Size = New System.Drawing.Size(220, 21)
         Me.ComboBox1.TabIndex = 5
         '
-        'Button3
+        'settz
         '
-        Me.Button3.Location = New System.Drawing.Point(238, 10)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(83, 23)
-        Me.Button3.TabIndex = 6
-        Me.Button3.Text = "Set TimeZone"
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.settz.Location = New System.Drawing.Point(238, 10)
+        Me.settz.Name = "settz"
+        Me.settz.Size = New System.Drawing.Size(87, 23)
+        Me.settz.TabIndex = 6
+        Me.settz.Text = "Set TimeZone"
+        Me.settz.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(878, 516)
-        Me.Controls.Add(Me.Button3)
+        Me.ClientSize = New System.Drawing.Size(337, 516)
+        Me.Controls.Add(Me.settz)
         Me.Controls.Add(Me.ComboBox1)
-        Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.RichTextBox1)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Name = "Form1"
         Me.Text = "Form1"
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -126,5 +114,5 @@ Partial Class Form1
     Friend WithEvents RichTextBox1 As RichTextBox
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents ComboBox1 As ComboBox
-    Friend WithEvents Button3 As Button
+    Friend WithEvents settz As Button
 End Class
