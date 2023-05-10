@@ -35,6 +35,7 @@ Public Class welcome
                                 My.Computer.Registry.SetValue("HKEY_CURRENT_USER\CoolerClock", "FirstRun", "1")
                                 MsgBox("Info saved.")
                                 Me.Close()
+                                Form1.Enabled = True
                             Catch
                                 MsgBox("Uh-oh ! Your API Key or Zip Code or the country code is wrong. If you just generated your API key, please wait around 15 minutes for it to start working.", MsgBoxStyle.Information)
                             End Try

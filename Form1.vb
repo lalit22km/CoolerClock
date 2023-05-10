@@ -5,10 +5,13 @@ Imports Newtonsoft.Json
 Imports System.IO
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports Newtonsoft.Json.Linq
+Imports Newtonsoft
 
 Public Class Form1
-    Dim AMorPM As Int32 '0 is AM 1 is PM
     Dim regKey As RegistryKey
+    Dim timeZone As String = My.Computer.Registry.GetValue _
+        ("HKEY_CURRENT_USER\CoolerClock", "timezone", Nothing)
+
     Private Function Setkeyval(ByVal keyname As String, ByVal emoji As String) As Int32
         regKey = My.Computer.Registry.CurrentUser.OpenSubKey("Control Panel\International", True)
         regKey.SetValue(keyname, emoji)
@@ -20,27 +23,18 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        welcome.Show()
-        Dim readValue1 As String = My.Computer.Registry.GetValue _
-        ("HKEY_CURRENT_USER\CoolerClock", "timezone", Nothing)
-        If readValue1 = "" Then
-            MsgBox("Please set Timezone.")
-        Else
-            ComboBox1.SelectedItem = readValue1
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
-            Dim timeapi As String = New System.Net.WebClient().DownloadString("https://timeapi.io/api/Time/current/zone?timeZone=" + ComboBox1.Text)
-            Dim parsejson As JObject = JObject.Parse(timeapi)
-            Dim thehour = parsejson.SelectToken("hour").ToString()
-            Dim themin = parsejson.SelectToken("minute").ToString()
-            Dim time As Int32 = thehour + themin
-            If time > 12 Then
-                AMorPM = 1
-            Else
-                AMorPM = 0
-            End If
-            Timer1.Enabled = True
-        End If
+        Dim checkFirstRun As String = My.Computer.Registry.GetValue _
+        ("HKEY_CURRENT_USER\CoolerClock", "FirstRun", Nothing)
+        If checkFirstRun = "1" Then
+            welcome.Close()
+            Me.Enabled = True
+            timeTimer.Enabled = True
+            weatherTimer.Enabled = False 'NOT YET IMPLIMENTED
 
+        Else
+            Me.Enabled = False
+            welcome.Show()
+        End If
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -52,17 +46,40 @@ Public Class Form1
         TextBox1.Text = lat + ", " + lon
     End Sub
 
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        Dim currenttime As String = Date.Now.ToString("hhmm")
-
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles timeTimer.Tick
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
+        Dim timeapi As String = New System.Net.WebClient().DownloadString("https://timeapi.io/api/Time/current/zone?timeZone=" + timeZone)
+        Dim parsejson As JObject = JObject.Parse(timeapi)
+        Dim hour = parsejson.SelectToken("hour").ToString()
+        Dim min = parsejson.SelectToken("minute").ToString()
+        If hour + min > 0 Then
+            If hour + min < 259 Then
+                Setkeyval("s1159", "🌑")
+            End If
+        ElseIf hour + min > 300 Then
+            If hour + min < 559 Then
+                Setkeyval("s1159", "🌒")
+            End If
+        ElseIf hour + min > 600 Then
+            If hour + min < 859 Then
+                Setkeyval("s1159", "🌓")
+            End If
+        ElseIf hour + min > 900 Then
+            If hour + min < 1759 Then
+                Setkeyval("s1159", "☀")
+                Setkeyval("s2359", "☀")
+            End If
+        ElseIf hour + min > 1800 Then
+            If hour + min < 2059 Then
+                Setkeyval("s2359", "🌅")
+            End If
+        ElseIf hour + min > 2100 Then
+            If hour + min < 2359 Then
+                Setkeyval("s2359", "🌔")
+            End If
+        End If
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles settz.Click
-        My.Computer.Registry.CurrentUser.CreateSubKey("CoolerClock")
-        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\CoolerClock", "timezone", ComboBox1.Text)
-        Dim readValue As String
-        readValue = My.Computer.Registry.GetValue _
-        ("HKEY_CURRENT_USER\CoolerClock", "timezone", Nothing)
-        MsgBox("The TZ has been set as " & readValue)
     End Sub
 End Class
